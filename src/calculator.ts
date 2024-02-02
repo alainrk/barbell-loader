@@ -62,6 +62,12 @@ export function calculate(
       break;
     }
 
+    // TODO: How to handle this?
+    // No available weights anymore
+    if (targetWeight < weights[weights.length - 1] * 2) {
+      break;
+    }
+
     // TODO: What it the target weight would be reachable through using the smallest amount on one side only?
   }
 
