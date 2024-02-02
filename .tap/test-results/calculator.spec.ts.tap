@@ -1,0 +1,89 @@
+TAP version 14
+# Subtest: calculator
+    1..2
+    not ok 1 - should be equal
+      ---
+      found:
+        left: 0
+        right: 0
+      wanted:
+        left: 0
+        right: 0
+      note: object identities differ
+      compare: ===
+      at:
+        fileName: calculator.spec.ts
+        lineNumber: 30
+        columnNumber: 7
+        isToplevel: true
+      stack: |
+        calculator.spec.ts:30:7
+        Generator.next
+        calculator.spec.ts:8:71
+        new Promise
+        __awaiter (calculator.spec.ts:4:12)
+        Test.<anonymous> (calculator.spec.ts:21:37)
+        Object.<anonymous> (calculator.spec.ts:21:5)
+        Function.all
+      source: |2
+      
+          for (const c of cases) {
+            t.equal(calculate(c.bbw, c.tw, c.aw), c.exp);
+        ------^
+          }
+          t.end();
+      ...
+    
+    not ok 2 - should be equal
+      ---
+      diff: |
+        --- expected
+        +++ actual
+        @@ -1,4 +1,4 @@
+         Object {
+        -  "left": 5,
+        -  "right": 5,
+        +  "left": 0,
+        +  "right": 0,
+         }
+      compare: ===
+      at:
+        fileName: calculator.spec.ts
+        lineNumber: 30
+        columnNumber: 7
+        isToplevel: true
+      stack: |
+        calculator.spec.ts:30:7
+        Generator.next
+        calculator.spec.ts:8:71
+        new Promise
+        __awaiter (calculator.spec.ts:4:12)
+        Test.<anonymous> (calculator.spec.ts:21:37)
+        Object.<anonymous> (calculator.spec.ts:21:5)
+        Function.all
+      source: |2
+      
+          for (const c of cases) {
+            t.equal(calculate(c.bbw, c.tw, c.aw), c.exp);
+        ------^
+          }
+          t.end();
+      ...
+    
+not ok 1 - calculator # time=84.189ms
+  ---
+  at:
+    fileName: calculator.spec.ts
+    lineNumber: 21
+    columnNumber: 5
+    typeName: Object
+  source: |
+    };
+  
+    tap.test("calculator", async (t) => {
+    ----^
+      const cases: Array<TestCase> = [
+        { bbw: 10, tw: 10, aw: aw1, exp: { left: 0, right: 0 } },
+  ...
+
+1..1
