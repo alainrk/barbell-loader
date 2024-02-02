@@ -1,0 +1,20 @@
+{
+  "name": "barbell-loadeer",
+  "version": "1.0.0",
+  "description": "Barbell Loader calculator",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "tap",
+    "build": "tsc",
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/alainrk/barbell-loader"
+  },
+  "keywords": [
+    "gym"
+  ],
+  "author": "Alain Di Chiappari",
+  "license": "ISC"
+}
