@@ -6,9 +6,14 @@ export type BarbellLoad = {
 export function calculate(
   barbellWeight: number,
   targetWeight: number,
-  availableWeights: Record<number, number>
+  availableWeights: Record<number, number>,
+  allowImbalance: boolean = false
 ): BarbellLoad {
+  // Initialize weight loaders
   const res = { left: 0, right: 0 };
+  const usedDisks = [];
+
+  // Remove barbell weight
   targetWeight -= barbellWeight;
 
   // Created a reversed sorted list of available weights
@@ -16,16 +21,16 @@ export function calculate(
     .map((x: string) => parseFloat(x))
     .sort((a: number, b: number): number => a - b);
 
-  console.log("Available weights:", weights);
+  const minWeightAvailable = weights[weights.length - 1];
 
   if (targetWeight < 0) {
     throw new Error("Target weight must be greater than barbell weight");
   }
 
-  const getNextWeight = () => {
+  const getNextWeight = (max = Infinity) => {
     for (const w of weights) {
-      // Not enough disks of this weight
-      if (availableWeights[w] < 2) {
+      // Too heavy for what's needed OR Not enough disks of this weight
+      if (w > max || availableWeights[w] < 2) {
         continue;
       }
       return w;
@@ -34,18 +39,17 @@ export function calculate(
   };
 
   while (targetWeight > 0) {
-    const w = getNextWeight();
+    const w = getNextWeight(targetWeight / 2);
     if (w == 0) {
       throw new Error("No available weights");
     }
 
     const newPotentialTarget = targetWeight - w * 2;
 
-    // TODO: This can be improved, giving max weight to getNextWeight
-    // Too heavy
-    if (newPotentialTarget < 0) {
-      continue;
-    }
+    // Too heavy: Not needed anymore, since we've passed in the max weight for each side
+    // if (newPotentialTarget < 0) {
+    //   continue;
+    // }
 
     // Use those disks
     availableWeights[w] -= 2;
@@ -53,9 +57,9 @@ export function calculate(
     // Update new target
     targetWeight = newPotentialTarget;
 
-    // TODO: Here also save the disks inserted instead of just summing
     res.left += w;
     res.right += w;
+    usedDisks.push(...[w, w]);
 
     // Just perfect
     if (targetWeight == 0) {
@@ -64,7 +68,7 @@ export function calculate(
 
     // TODO: How to handle this?
     // No available weights anymore
-    if (targetWeight < weights[weights.length - 1] * 2) {
+    if (targetWeight < minWeightAvailable * 2) {
       break;
     }
 
