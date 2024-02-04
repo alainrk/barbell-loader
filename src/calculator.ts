@@ -82,8 +82,6 @@ export function calculate(
       // And in any case, exit
       break;
     }
-
-    // TODO: What it the target weight would be reachable through using the smallest amount on one side only?
   }
 
   return res;
