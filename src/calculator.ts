@@ -3,15 +3,22 @@ export type BarbellLoad = {
   right: number;
 };
 
+export type BarbellResult = {
+  load: BarbellLoad;
+  plates: Array<number>;
+};
+
 export function calculate(
   barbellWeight: number,
   targetWeight: number,
   availableWeights: Record<number, number>,
   allowImbalance: boolean = false
-): BarbellLoad {
+): BarbellResult {
   // Initialize weight loaders
-  const res = { left: 0, right: 0 };
-  const usedDisks = [];
+  const res: BarbellResult = {
+    load: { left: 0, right: 0 },
+    plates: [],
+  };
 
   // Remove barbell weight
   targetWeight -= barbellWeight;
@@ -52,9 +59,9 @@ export function calculate(
     // Update new target
     targetWeight = newPotentialTarget;
 
-    res.left += w;
-    res.right += w;
-    usedDisks.push(...[w, w]);
+    res.load.left += w;
+    res.load.right += w;
+    res.plates.push(...[w, w]);
 
     // Just perfect
     if (targetWeight === 0) {
@@ -66,11 +73,11 @@ export function calculate(
       if (!allowImbalance) break;
       // Check if imbalance is allowed, and there is a small disk we can add it on one side and that's it
       if (
-        targetWeight === minWeightAvailable &&
+        targetWeight >= minWeightAvailable &&
         availableWeights[minWeightAvailable] > 0
       ) {
-        res.left += minWeightAvailable;
-        usedDisks.push(minWeightAvailable);
+        res.load.left += minWeightAvailable;
+        res.plates.push(minWeightAvailable);
       }
       // And in any case, exit
       break;

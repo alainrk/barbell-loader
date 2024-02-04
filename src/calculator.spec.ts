@@ -27,10 +27,14 @@ const cases: Array<TestCase> = [
   { bbw: 10, tw: 31, aw: aw1, exp: { left: 10.5, right: 10.5 }, imb: false },
   { bbw: 10, tw: 32, aw: aw1, exp: { left: 11, right: 11 }, imb: false },
   { bbw: 10, tw: 35, aw: aw1, exp: { left: 12.5, right: 12.5 }, imb: false },
+
   { bbw: 10, tw: 35.5, aw: aw1, exp: { left: 12.5, right: 12.5 }, imb: false },
   { bbw: 10, tw: 35.5, aw: aw1, exp: { left: 13, right: 12.5 }, imb: true },
 
-  // { bbw: 0.75, tw: 10, aw: aw1, exp: { left: 5, right: 5 }, imb: false },
+  { bbw: 0.75, tw: 10, aw: aw1, exp: { left: 4.5, right: 4.5 }, imb: false },
+  { bbw: 0.75, tw: 10, aw: aw1, exp: { left: 4.5, right: 4.5 }, imb: true },
+  { bbw: 0.75, tw: 10.5, aw: aw1, exp: { left: 5, right: 4.5 }, imb: true },
+
   // { bbw: 0.75, tw: 10.25, aw: aw1, exp: { left: 5, right: 5 }, imb: false },
   // { bbw: 0.75, tw: 10.5, aw: aw1, exp: { left: 5, right: 5 }, imb: false },
   // { bbw: 0.75, tw: 10.75, aw: aw1, exp: { left: 5, right: 5 }, imb: false },
@@ -38,9 +42,11 @@ const cases: Array<TestCase> = [
 
 for (const c of cases) {
   tap.test(`Barbell: ${c.bbw}, Target: ${c.tw}, Imbalance: ${c.imb}`, (t) => {
-    const res = calculate(c.bbw, c.tw, JSON.parse(JSON.stringify(c.aw)));
-    // console.log(`Res: ${JSON.stringify(res)} - Exp: ${JSON.stringify(c.exp)}`);
-    t.same(res, c.exp);
+    const res = calculate(c.bbw, c.tw, JSON.parse(JSON.stringify(c.aw)), c.imb);
+
+    console.log(`Res: ${JSON.stringify(res)} - Exp: ${JSON.stringify(c.exp)}`);
+
+    t.same(res.load, c.exp);
     t.end();
   });
 }
