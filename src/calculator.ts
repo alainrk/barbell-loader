@@ -19,7 +19,7 @@ export function calculate(
   // Created a reversed sorted list of available weights
   const weights = Object.keys(availableWeights)
     .map((x: string) => parseFloat(x))
-    .sort((a: number, b: number): number => a - b);
+    .sort((a: number, b: number): number => b - a);
 
   const minWeightAvailable = weights[weights.length - 1];
 

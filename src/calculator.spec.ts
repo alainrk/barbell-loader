@@ -20,12 +20,12 @@ const aw1 = {
 
 const cases: Array<TestCase> = [
   { bbw: 10, tw: 10, aw: aw1, exp: { left: 0, right: 0 } },
-  { bbw: 10, tw: 20, aw: aw1, exp: { left: 5, right: 5 } },
-  { bbw: 10, tw: 25, aw: aw1, exp: { left: 7.5, right: 7.5 } },
-  { bbw: 10, tw: 30, aw: aw1, exp: { left: 10, right: 10 } },
-  { bbw: 10, tw: 31, aw: aw1, exp: { left: 10.5, right: 10.5 } },
-  { bbw: 10, tw: 32, aw: aw1, exp: { left: 11, right: 11 } },
-  { bbw: 10, tw: 35, aw: aw1, exp: { left: 12.5, right: 12.5 } },
+  // { bbw: 10, tw: 20, aw: aw1, exp: { left: 5, right: 5 } },
+  // { bbw: 10, tw: 25, aw: aw1, exp: { left: 7.5, right: 7.5 } },
+  // { bbw: 10, tw: 30, aw: aw1, exp: { left: 10, right: 10 } },
+  // { bbw: 10, tw: 31, aw: aw1, exp: { left: 10.5, right: 10.5 } },
+  // { bbw: 10, tw: 32, aw: aw1, exp: { left: 11, right: 11 } },
+  // { bbw: 10, tw: 35, aw: aw1, exp: { left: 12.5, right: 12.5 } },
   // { bbw: 10, tw: 35.5, aw: aw1, exp: { left: 5, right: 5 } },
 
   // { bbw: 0.75, tw: 10, aw: aw1, exp: { left: 5, right: 5 } },

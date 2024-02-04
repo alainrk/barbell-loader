@@ -1,12 +1,13 @@
 {
-  "name": "barbell-loadeer",
+  "name": "barbell-loader",
   "version": "1.0.0",
   "description": "Barbell Loader calculator",
   "main": "dist/index.js",
   "scripts": {
     "test": "tap",
     "build": "tsc",
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
