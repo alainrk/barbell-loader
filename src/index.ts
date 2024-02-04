@@ -10,4 +10,4 @@ const aw1 = {
   20: 2,
 };
 
-console.log(calculate(10, 20, aw1));
+console.log(calculate(10, 35.5, aw1, true));

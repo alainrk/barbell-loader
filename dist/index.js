@@ -10,5 +10,5 @@ const aw1 = {
     15: 2,
     20: 2,
 };
-console.log((0, calculator_1.calculate)(10, 20, aw1));
+console.log((0, calculator_1.calculate)(10, 35.5, aw1, true));
 //# sourceMappingURL=index.js.map

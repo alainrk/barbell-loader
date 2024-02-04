@@ -40,16 +40,11 @@ export function calculate(
 
   while (targetWeight > 0) {
     const w = getNextWeight(targetWeight / 2);
-    if (w == 0) {
+    if (w === 0) {
       throw new Error("No available weights");
     }
 
     const newPotentialTarget = targetWeight - w * 2;
-
-    // Too heavy: Not needed anymore, since we've passed in the max weight for each side
-    // if (newPotentialTarget < 0) {
-    //   continue;
-    // }
 
     // Use those disks
     availableWeights[w] -= 2;
@@ -62,13 +57,22 @@ export function calculate(
     usedDisks.push(...[w, w]);
 
     // Just perfect
-    if (targetWeight == 0) {
+    if (targetWeight === 0) {
       break;
     }
 
-    // TODO: How to handle this?
     // No available weights anymore
     if (targetWeight < minWeightAvailable * 2) {
+      if (!allowImbalance) break;
+      // Check if imbalance is allowed, and there is a small disk we can add it on one side and that's it
+      if (
+        targetWeight === minWeightAvailable &&
+        availableWeights[minWeightAvailable] > 0
+      ) {
+        res.left += minWeightAvailable;
+        usedDisks.push(minWeightAvailable);
+      }
+      // And in any case, exit
       break;
     }
 
