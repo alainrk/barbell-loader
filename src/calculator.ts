@@ -3,9 +3,14 @@ export type BarbellLoad = {
   right: number;
 };
 
+export type BarbellSideLoad = Array<number>;
+
 export type BarbellResult = {
   load: BarbellLoad;
-  plates: Array<number>;
+  sides: {
+    left: BarbellSideLoad;
+    right: BarbellSideLoad;
+  };
 };
 
 export function calculate(
@@ -17,8 +22,13 @@ export function calculate(
   // Initialize weight loaders
   const res: BarbellResult = {
     load: { left: 0, right: 0 },
-    plates: [],
+    sides: {
+      left: [],
+      right: [],
+    },
   };
+
+  availableWeights = JSON.parse(JSON.stringify(availableWeights));
 
   // Remove barbell weight
   targetWeight -= barbellWeight;
@@ -61,7 +71,8 @@ export function calculate(
 
     res.load.left += w;
     res.load.right += w;
-    res.plates.push(...[w, w]);
+    res.sides.left.push(w);
+    res.sides.right.push(w);
 
     // Just perfect
     if (targetWeight === 0) {
@@ -77,7 +88,7 @@ export function calculate(
         availableWeights[minWeightAvailable] > 0
       ) {
         res.load.left += minWeightAvailable;
-        res.plates.push(minWeightAvailable);
+        res.sides.left.push(minWeightAvailable);
       }
       // And in any case, exit
       break;

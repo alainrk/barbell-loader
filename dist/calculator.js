@@ -5,8 +5,12 @@ function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance
     // Initialize weight loaders
     const res = {
         load: { left: 0, right: 0 },
-        plates: [],
+        sides: {
+            left: [],
+            right: [],
+        },
     };
+    availableWeights = JSON.parse(JSON.stringify(availableWeights));
     // Remove barbell weight
     targetWeight -= barbellWeight;
     // Created a reversed sorted list of available weights
@@ -39,7 +43,8 @@ function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance
         targetWeight = newPotentialTarget;
         res.load.left += w;
         res.load.right += w;
-        res.plates.push(...[w, w]);
+        res.sides.left.push(w);
+        res.sides.right.push(w);
         // Just perfect
         if (targetWeight === 0) {
             break;
@@ -52,7 +57,7 @@ function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance
             if (targetWeight >= minWeightAvailable &&
                 availableWeights[minWeightAvailable] > 0) {
                 res.load.left += minWeightAvailable;
-                res.plates.push(minWeightAvailable);
+                res.sides.left.push(minWeightAvailable);
             }
             // And in any case, exit
             break;
