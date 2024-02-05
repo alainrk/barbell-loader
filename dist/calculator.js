@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculate = void 0;
 function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance = false) {
     // Initialize weight loaders
-    const res = { left: 0, right: 0 };
-    const usedDisks = [];
+    const res = {
+        load: { left: 0, right: 0 },
+        plates: [],
+    };
     // Remove barbell weight
     targetWeight -= barbellWeight;
     // Created a reversed sorted list of available weights
@@ -35,9 +37,9 @@ function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance
         availableWeights[w] -= 2;
         // Update new target
         targetWeight = newPotentialTarget;
-        res.left += w;
-        res.right += w;
-        usedDisks.push(...[w, w]);
+        res.load.left += w;
+        res.load.right += w;
+        res.plates.push(...[w, w]);
         // Just perfect
         if (targetWeight === 0) {
             break;
@@ -47,15 +49,14 @@ function calculate(barbellWeight, targetWeight, availableWeights, allowImbalance
             if (!allowImbalance)
                 break;
             // Check if imbalance is allowed, and there is a small disk we can add it on one side and that's it
-            if (targetWeight === minWeightAvailable &&
+            if (targetWeight >= minWeightAvailable &&
                 availableWeights[minWeightAvailable] > 0) {
-                res.left += minWeightAvailable;
-                usedDisks.push(minWeightAvailable);
+                res.load.left += minWeightAvailable;
+                res.plates.push(minWeightAvailable);
             }
             // And in any case, exit
             break;
         }
-        // TODO: What it the target weight would be reachable through using the smallest amount on one side only?
     }
     return res;
 }

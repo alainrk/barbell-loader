@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barbell Load Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .result {
+        margin-top: 20px;
+      }
+      label {
+        margin-top: 10px;
+        display: block;
+      }
+      select,
+      input[type="number"],
+      input[type="checkbox"] {
+        margin-top: 5px;
+      }
+      button {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Barbell Load Calculator</h2>
+    <form id="calcForm">
+      <label for="barbellWeight">Barbell Weight:</label>
+      <select id="barbellWeight">
+        <option value="10">10kg</option>
+        <option value="0.75">0.75kg</option>
+      </select>
+
+      <label for="targetWeight">Target Weight:</label>
+      <input type="number" id="targetWeight" min="0" step="0.25" required />
+
+      <label
+        ><input type="checkbox" id="allowImbalance" /> Allow Imbalance</label
+      >
+
+      <button type="button" onclick="calculateLoad()">Calculate</button>
+      <button type="reset">Reset</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      // The calculate function
+      function calculate(
+        barbellWeight,
+        targetWeight,
+        availableWeights,
+        allowImbalance = false
+      ) {
+        // Initialize weight loaders
+        const res = {
+          load: { left: 0, right: 0 },
+          plates: [],
+        };
+        // Remove barbell weight
+        targetWeight -= barbellWeight;
+        // Created a reversed sorted list of available weights
+        const weights = Object.keys(availableWeights)
+          .map((x) => parseFloat(x))
+          .sort((a, b) => b - a);
+        const minWeightAvailable = weights[weights.length - 1];
+        if (targetWeight < 0) {
+          throw new Error("Target weight must be greater than barbell weight");
+        }
+        const getNextWeight = (max = Infinity) => {
+          for (const w of weights) {
+            // Too heavy for what's needed OR Not enough disks of this weight
+            if (w > max || availableWeights[w] < 2) {
+              continue;
+            }
+            return w;
+          }
+          return 0;
+        };
+        while (targetWeight > 0) {
+          const w = getNextWeight(targetWeight / 2);
+          if (w === 0) {
+            throw new Error("No available weights");
+          }
+          const newPotentialTarget = targetWeight - w * 2;
+          // Use those disks
+          availableWeights[w] -= 2;
+          // Update new target
+          targetWeight = newPotentialTarget;
+          res.load.left += w;
+          res.load.right += w;
+          res.plates.push(...[w, w]);
+          // Just perfect
+          if (targetWeight === 0) {
+            break;
+          }
+          // No available weights anymore
+          if (targetWeight < minWeightAvailable * 2) {
+            if (!allowImbalance) break;
+            // Check if imbalance is allowed, and there is a small disk we can add it on one side and that's it
+            if (
+              targetWeight >= minWeightAvailable &&
+              availableWeights[minWeightAvailable] > 0
+            ) {
+              res.load.left += minWeightAvailable;
+              res.plates.push(minWeightAvailable);
+            }
+            // And in any case, exit
+            break;
+          }
+        }
+        return res;
+      }
+
+      function calculateLoad() {
+        const barbellWeight = parseFloat(
+          document.getElementById("barbellWeight").value
+        );
+        const targetWeight = parseFloat(
+          document.getElementById("targetWeight").value
+        );
+        const allowImbalance =
+          document.getElementById("allowImbalance").checked;
+
+        const availableWeights = {
+          0.5: 4,
+          1: 6,
+          2: 10,
+          5: 4,
+          10: 6,
+          15: 2,
+          20: 2,
+        };
+
+        const result = calculate(
+          barbellWeight,
+          targetWeight,
+          availableWeights,
+          allowImbalance
+        );
+        displayResult(result);
+      }
+
+      function displayResult(result) {
+        const barbellWeight = parseFloat(
+          document.getElementById("barbellWeight").value
+        );
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+        <p>Load: ${result.load.left + result.load.right + barbellWeight}kg</p>
+        <p>Load: Left - ${result.load.left}, Right - ${result.load.right}</p>
+        <p>Plates: ${result.plates.join(", ")}</p>`;
+      }
+    </script>
+  </body>
+</html>
