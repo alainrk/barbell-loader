@@ -1,4 +1,4 @@
-# Barbell Loader Calculator
+# Barbell Load Calculator
 
 How the hell did you end up here?
 
