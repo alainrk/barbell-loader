@@ -66,6 +66,199 @@
         <button type="reset" class="btn btn-secondary">Reset</button>
       </form>
       <div id="result" class="mt-4"></div>
+
+      <!-- Disks -->
+
+      <div class="mb-3">
+        <label for="disk20" class="form-label">20kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease20"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk20"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase20"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk15" class="form-label">15kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease15"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk15"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase15"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk10" class="form-label">10kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease10"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk10"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase10"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk5" class="form-label">5kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease5"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk5"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase5"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk2" class="form-label">2kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease2"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk2"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase2"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk1" class="form-label">1kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease1"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk1"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase1"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="disk0.5" class="form-label">0.5kg</label>
+        <div class="input-group">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="decrease0.5"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="disk0.5"
+            step="1"
+            required
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="increase0.5"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- Disks -->
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
@@ -147,7 +340,7 @@
         return res;
       }
 
-      const availableWeights = {
+      const startWeights = {
         0.5: 4,
         1: 6,
         2: 10,
@@ -155,6 +348,15 @@
         10: 6,
         15: 2,
         20: 2,
+      };
+
+      const availableWeights = JSON.parse(JSON.stringify(startWeights));
+
+      const onChangeDisk = (disk, delta) => {
+        availableWeights[disk] += delta;
+        if (availableWeights[disk] < 0) availableWeights[disk] = 0;
+        document.getElementById(`disk${disk}`).value = availableWeights[disk];
+        console.log(availableWeights);
       };
 
       const onCalculate = (e) => {
@@ -176,13 +378,15 @@
         );
 
         document.getElementById("result").innerHTML = `
-    <h4>Result</h4>
-    <p>Total: ${
-      result.load.left + result.load.right + barbellWeight
-    }kg (${barbellWeight} + [${result.load.left} + ${result.load.right}])</p>
-    <p>Left: ${result.sides.left.join(" - ")}</p>
-    <p>Right: ${result.sides.right.join(" - ")}</p>
-  `;
+        <h4>Result</h4>
+        <p>Total: ${
+          result.load.left + result.load.right + barbellWeight
+        }kg (${barbellWeight} + [${result.load.left} + ${
+          result.load.right
+        }])</p>
+        <p>Left: ${result.sides.left.join(" - ")}</p>
+        <p>Right: ${result.sides.right.join(" - ")}</p>
+      `;
       };
 
       const increaseWeight = () => {
@@ -213,6 +417,24 @@
       document
         .getElementById("weightCalcForm")
         .addEventListener("submit", onCalculate);
+
+      for (const d in startWeights) {
+        const disk = parseFloat(d);
+        const amount = startWeights[d];
+
+        document.getElementById(`disk${disk}`).value = amount;
+
+        document
+          .getElementById(`increase${d}`)
+          .addEventListener("click", (e) => {
+            onChangeDisk(disk, 1);
+          });
+        document
+          .getElementById(`decrease${d}`)
+          .addEventListener("click", (e) => {
+            onChangeDisk(disk, -1);
+          });
+      }
     </script>
   </body>
 </html>
