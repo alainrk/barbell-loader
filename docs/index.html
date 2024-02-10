@@ -25,6 +25,7 @@
           >
           <select class="form-select" id="barbellWeight">
             <option value="10">10kg</option>
+            <option value="6.5">6.5kg</option>
             <option value="0.75">0.75kg</option>
           </select>
         </div>
@@ -156,42 +157,25 @@
         20: 2,
       };
 
-      document
-        .getElementById("increaseWeight")
-        .addEventListener("click", function () {
-          const input = document.getElementById("targetWeight");
-          input.value = (parseFloat(input.value) || 0) + 0.25;
-        });
+      const onCalculate = (e) => {
+        e.preventDefault();
+        const barbellWeight = parseFloat(
+          document.getElementById("barbellWeight").value
+        );
+        const targetWeight = parseFloat(
+          document.getElementById("targetWeight").value
+        );
+        const allowImbalance =
+          document.getElementById("allowImbalance").checked;
 
-      document
-        .getElementById("decreaseWeight")
-        .addEventListener("click", function () {
-          const input = document.getElementById("targetWeight");
-          input.value = (parseFloat(input.value) || 0) - 0.25;
-          if (input.value < 0) input.value = 0; // Prevent negative values
-        });
+        const result = calculate(
+          barbellWeight,
+          targetWeight,
+          availableWeights,
+          allowImbalance
+        );
 
-      document
-        .getElementById("weightCalcForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const barbellWeight = parseFloat(
-            document.getElementById("barbellWeight").value
-          );
-          const targetWeight = parseFloat(
-            document.getElementById("targetWeight").value
-          );
-          const allowImbalance =
-            document.getElementById("allowImbalance").checked;
-
-          const result = calculate(
-            barbellWeight,
-            targetWeight,
-            availableWeights,
-            allowImbalance
-          );
-
-          document.getElementById("result").innerHTML = `
+        document.getElementById("result").innerHTML = `
     <h4>Result</h4>
     <p>Total: ${
       result.load.left + result.load.right + barbellWeight
@@ -199,7 +183,36 @@
     <p>Left: ${result.sides.left.join(" - ")}</p>
     <p>Right: ${result.sides.right.join(" - ")}</p>
   `;
+      };
+
+      const increaseWeight = () => {
+        const input = document.getElementById("targetWeight");
+        input.value = (parseFloat(input.value) || 0) + 0.25;
+      };
+
+      const decreaseWeight = () => {
+        const input = document.getElementById("targetWeight");
+        input.value = (parseFloat(input.value) || 0) - 0.25;
+        if (input.value < 0) input.value = 0; // Prevent negative values
+      };
+
+      document
+        .getElementById("increaseWeight")
+        .addEventListener("click", (e) => {
+          increaseWeight();
+          onCalculate(e);
         });
+
+      document
+        .getElementById("decreaseWeight")
+        .addEventListener("click", (e) => {
+          decreaseWeight();
+          onCalculate(e);
+        });
+
+      document
+        .getElementById("weightCalcForm")
+        .addEventListener("submit", onCalculate);
     </script>
   </body>
 </html>
