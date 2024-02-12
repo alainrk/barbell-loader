@@ -7,3 +7,5 @@ Since I'm dumber than usual during training, this is a simple calculator to assi
 [Try it out](https://alainrk.github.io/barbell-loader/).
 
 [Want to use it? Need features?](https://github.com/alainrk/barbell-loader/issues)
+
+![screen](./screen.png)
