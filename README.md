@@ -8,4 +8,4 @@ Since I'm dumber than usual during training, this is a simple calculator to assi
 
 [Want to use it? Need features?](https://github.com/alainrk/barbell-loader/issues)
 
-![screen](./screen.png)
+![screen](./img/screen.png)
