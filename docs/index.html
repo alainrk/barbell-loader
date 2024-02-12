@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Barbell Weight Calculator</title>
+    <title>Barbell Load Calculator</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -17,20 +17,21 @@
   </head>
   <body>
     <div class="container py-5">
-      <h2>Barbell Weight Calculator</h2>
+      <h2>Barbell Load Calculator</h2>
       <form id="weightCalcForm">
         <div class="mb-3">
           <label for="barbellWeight" class="form-label"
-            >Choose Barbell Weight</label
+            >Choose Barbell Load</label
           >
           <select class="form-select" id="barbellWeight">
             <option value="10">10kg</option>
             <option value="6.5">6.5kg</option>
             <option value="0.75">0.75kg</option>
+            <option value="20">20kg</option>
           </select>
         </div>
         <div class="mb-3">
-          <label for="targetWeight" class="form-label">Target Weight</label>
+          <label for="targetWeight" class="form-label">Target Load</label>
           <div class="input-group">
             <button
               class="btn btn-outline-secondary"
@@ -71,6 +72,33 @@
 
       <div class="row mt-1">
         <div class="col">
+          <label for="disk25" class="form-label">25kg</label>
+          <div class="input-group">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="decrease25"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              class="form-control"
+              id="disk25"
+              step="1"
+              required
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="increase25"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="col">
           <label for="disk20" class="form-label">20kg</label>
           <div class="input-group">
             <button
@@ -96,7 +124,9 @@
             </button>
           </div>
         </div>
+      </div>
 
+      <div class="row mt-1">
         <div class="col">
           <label for="disk15" class="form-label">15kg</label>
           <div class="input-group">
@@ -123,9 +153,7 @@
             </button>
           </div>
         </div>
-      </div>
 
-      <div class="row mt-1">
         <div class="col">
           <label for="disk10" class="form-label">10kg</label>
           <div class="input-group">
@@ -152,7 +180,9 @@
             </button>
           </div>
         </div>
+      </div>
 
+      <div class="row mt-1">
         <div class="col">
           <label for="disk5" class="form-label">5kg</label>
           <div class="input-group">
@@ -174,6 +204,33 @@
               class="btn btn-outline-secondary"
               type="button"
               id="increase5"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="col">
+          <label for="disk2.5" class="form-label">2.5kg</label>
+          <div class="input-group">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="decrease2.5"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              class="form-control"
+              id="disk2.5"
+              step="1"
+              required
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="increase2.5"
             >
               +
             </button>
@@ -353,10 +410,12 @@
         0.5: 4,
         1: 6,
         2: 10,
+        2.5: 0,
         5: 4,
         10: 6,
         15: 2,
         20: 2,
+        25: 0,
       };
 
       const availableWeights = JSON.parse(JSON.stringify(startWeights));
