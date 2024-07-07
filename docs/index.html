@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -24,10 +24,11 @@
             >Choose Barbell Load</label
           >
           <select class="form-select" id="barbellWeight">
+            <option value="20">20kg</option>
             <option value="10">10kg</option>
             <option value="6.5">6.5kg</option>
+            <option value="1.8">1.8kg</option>
             <option value="0.75">0.75kg</option>
-            <option value="20">20kg</option>
           </select>
         </div>
         <div class="mb-3">
@@ -339,7 +340,7 @@
         barbellWeight,
         targetWeight,
         availableWeights,
-        allowImbalance = false
+        allowImbalance = false,
       ) {
         // Initialize weight loaders
         const res = {
@@ -430,10 +431,10 @@
       const onCalculate = (e) => {
         e.preventDefault();
         const barbellWeight = parseFloat(
-          document.getElementById("barbellWeight").value
+          document.getElementById("barbellWeight").value,
         );
         const targetWeight = parseFloat(
-          document.getElementById("targetWeight").value
+          document.getElementById("targetWeight").value,
         );
         const allowImbalance =
           document.getElementById("allowImbalance").checked;
@@ -442,7 +443,7 @@
           barbellWeight,
           targetWeight,
           availableWeights,
-          allowImbalance
+          allowImbalance,
         );
 
         document.getElementById("result").innerHTML = `
